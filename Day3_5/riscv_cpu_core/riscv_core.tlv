@@ -40,10 +40,16 @@
    |cpu
       @0
          $reset = *reset;
-         // YOUR CODE HERE
-         $inc_pc[31:0] = 32'd4;
-         $pc[31:0] = >>1$reset ? 0 : >>1$pc[31:0] + $inc_pc[31:0];
-
+         // PC
+         $pc[31:0] = >>1$reset ? 0 : >>1$pc[31:0] + 32'd4;
+      @1
+         // Fetch
+         $imem_rd_addr[M4_IMEM_INDEX_CNT-1:0] = $pc[M4_IMEM_INDEX_CNT+1:2];
+         $imem_rd_en = !$reset;
+         $instr[31:0] = $imem_rd_data[31:0];
+         ?$imem_rd_en
+            $imem_rd_data[31:0] = /imem[$imem_rd_addr]$instr;
+      
       // Note: Because of the magic we are using for visualisation, if visualisation is enabled below,
       //       be sure to avoid having unassigned signals (which you might be using for random inputs)
       //       other than those specifically expected in the labs. You'll get strange errors for these.
@@ -59,11 +65,11 @@
    //  o data memory
    //  o CPU visualization
    |cpu
-      // m4+imem(@1)    // Args: (read stage)
+      m4+imem(@1)    // Args: (read stage)
       //m4+rf(@1, @1)  // Args: (read stage, write stage) - if equal, no register bypass is required
       //m4+dmem(@4)    // Args: (read/write stage)
       //m4+myth_fpga(@0)  // Uncomment to run on fpga
 
-   //m4+cpu_viz(@4)    // For visualisation, argument should be at least equal to the last stage of CPU logic. @4 would work for all labs.
+   m4+cpu_viz(@4)    // For visualisation, argument should be at least equal to the last stage of CPU logic. @4 would work for all labs.
 \SV
    endmodule
