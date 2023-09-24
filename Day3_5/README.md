@@ -8,3 +8,7 @@ Add your codes in the [calculator_solutions.tlv](calculator_solutions.tlv) and [
 
 # Single Cycle CPU Core
 <img width="1470" alt="image" src="https://github.com/RISCV-MYTH-WORKSHOP/riscv-myth-workshop-sep23-kohshi54/assets/80312261/f881e894-f548-4b26-9a76-ba24ce3b232d">
+
+# 3 Cycle CPU Core
+<img width="434" alt="image" src="https://github.com/RISCV-MYTH-WORKSHOP/riscv-myth-workshop-sep23-kohshi54/assets/80312261/9aae08be-8f16-4fcc-807d-c0b7180f0440">
+
