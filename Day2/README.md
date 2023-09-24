@@ -50,6 +50,15 @@ riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o sum1ton.o sum1ton.c
 ```
 riscv64-unknown-elf-objdump -d sum1ton.o
 ```
-<img width="1058" alt="image" src="https://github.com/RISCV-MYTH-WORKSHOP/riscv-myth-workshop-sep23-kohshi54/assets/80312261/7a86e997-c057-4e83-b6d4-eb8b4ef1ce76">
+<img width="1059" alt="image" src="https://github.com/RISCV-MYTH-WORKSHOP/riscv-myth-workshop-sep23-kohshi54/assets/80312261/6b20889d-ab4c-440b-b57b-99453e062669">
+
+
+# Debug RISC-V object file with spike
+```
+spike pk sum1ton.o
+```
+<img width="1058" alt="image" src="https://github.com/RISCV-MYTH-WORKSHOP/riscv-myth-workshop-sep23-kohshi54/assets/80312261/33e2e15d-4de2-4964-bf38-4f5c97b235e3">
+From the sp value being decremented by 16, it can be seen that the stack pointer is actually increasing forward from a higher to a lower address!!
+
 
 
