@@ -140,9 +140,9 @@
       @2   
          // Register File Read
          $rf_rd_en1 = $rs1_valid;
-         $rf_rd_index1[4:0] = $rs1;
+         $rf_rd_index1[4:0] = $rf_rd_en1 ? $rs1[4:0]: 5'bx;
          $rf_rd_en2 = $rs2_valid;
-         $rf_rd_index2[4:0] = $rs2;
+         $rf_rd_index2[4:0] = $rf_rd_en2 ? $rs2[4:0]: 5'bx;
          
          $src1_value[31:0] = (>>1$rf_wr_en && >>1$rd == >>1$rs1) ? >>1$result : $rf_rd_data1;
          $src2_value[31:0] = (>>1$rf_wr_en && >>1$rd == >>1$rs2) ? >>1$result : $rf_rd_data2;
@@ -195,6 +195,12 @@
          $valid_taken_branch = $valid && $taken_branch;
          $br_target_pc[31:0] = $pc +$imm;
 
+         $dmem_wr_data[31:0] = $src2_value[31:0];
+         $dmem_wr_en = $is_s_instr && $valid;
+         $dmem_addr[3:0] = $result[5:2];
+         $dmem_rd_en = $valid_load;
+      @4
+         $ld_data[31:0] = $dmem_rd_data[31:0];
          // Testbench
 		 *passed = |cpu/xreg[10]>>5$value == (1+2+3+4+5+6+7+8+9);
       // Note: Because of the magic we are using for visualisation, if visualisation is enabled below,
