@@ -43,13 +43,13 @@
          $pc[31:0] = >>1$reset ? 0 :
                      >>3$valid_taken_branch ? >>3$br_target_pc : 
                      // default
-                                        >>3$pc[31:0] + 32'd4;
+                                        >>1$pc[31:0] + 32'd4;
 
          $start = >>1$reset;
-         $valid = $reset ? 0 : 
-                  $start ? 1 :
-                  // default
-                           >>3$valid;
+        //  $valid = $reset ? 0 : 
+        //           $start ? 1 :
+        //           // default
+        //                    >>3$valid;
 
       @1
          // Fetch
@@ -141,7 +141,7 @@
                          $is_bltu ? ($src1_value < $src2_value):
                          $is_bgeu ? ($src1_value >= $src2_value):
                                     1'b0;
-
+         $valid = !>>1$valid_taken_branch || !>>2$valid_taken_branch;
          $valid_taken_branch = $valid && $taken_branch;
          $br_target_pc[31:0] = $pc +$imm;
 
