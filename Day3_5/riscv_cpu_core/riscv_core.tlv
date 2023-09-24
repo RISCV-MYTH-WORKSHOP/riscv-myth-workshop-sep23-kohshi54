@@ -41,6 +41,7 @@
       @0
          $reset = *reset;
          $pc[31:0] = >>1$reset ? 0 :
+                     >>3$valid_load ? >>3$pc:
                      >>3$valid_taken_branch ? >>3$br_target_pc : 
                      // default
                                         >>1$pc[31:0] + 32'd4;
@@ -187,7 +188,8 @@
                          $is_bltu ? ($src1_value < $src2_value):
                          $is_bgeu ? ($src1_value >= $src2_value):
                                     1'b0;
-         $valid = !>>1$valid_taken_branch || !>>2$valid_taken_branch;
+         $valid_load = $valid && $is_load;
+         $valid = (!>>1$valid_taken_branch || !>>2$valid_taken_branch) && (!>>1$valid_load || !>>2$valid_load);
          $valid_taken_branch = $valid && $taken_branch;
          $br_target_pc[31:0] = $pc +$imm;
 
