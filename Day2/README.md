@@ -42,9 +42,9 @@
 ```
 riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o sum1ton.o sum1ton.c
 ```
--O1: optimization (e.g. -O1 or -Ofast) 
--mabi: application binary interface (e.g. lp64 = long integer pointer 64)  
--march: architecture (e.g. rv64i = risc-v 64 integer)  
+-O1: optimization (e.g. -O1 or -Ofast)   
+-mabi: application binary interface (e.g. lp64 = long integer pointer 64)    
+-march: architecture (e.g. rv64i = risc-v 64 integer) 
 
 # Disassmeble RISC-V object file
 ```
