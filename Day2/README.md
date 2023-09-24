@@ -60,5 +60,10 @@ spike pk sum1ton.o
 <img width="1058" alt="image" src="https://github.com/RISCV-MYTH-WORKSHOP/riscv-myth-workshop-sep23-kohshi54/assets/80312261/33e2e15d-4de2-4964-bf38-4f5c97b235e3">
 From the sp value being decremented by 16, it can be seen that the stack pointer is actually increasing forward from a higher to a lower address!!
 
+# ABI Function Call
+Function can be implemented with ABI.
+<img width="1065" alt="image" src="https://github.com/RISCV-MYTH-WORKSHOP/riscv-myth-workshop-sep23-kohshi54/assets/80312261/501b2d61-7617-40b8-abd6-40ddc90bb67a">
+
+<img width="1065" alt="image" src="https://github.com/RISCV-MYTH-WORKSHOP/riscv-myth-workshop-sep23-kohshi54/assets/80312261/17bc8e7d-9671-4f0d-8751-d66961e9b970">
 
 
