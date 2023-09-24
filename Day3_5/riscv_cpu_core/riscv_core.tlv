@@ -102,30 +102,30 @@
          $opcode[6:0] = $instr[6:0];
 
          // Instruction Decode
-         $islui = $dec_bits ==? 11'bx_xxx_0110111;
-         $isauipc = $dec_bits ==? 11'bx_xxx_0010111;
-         $isjal = $dec_bits ==? 11'bx_xxx_1101111;
+         $is_lui = $dec_bits ==? 11'bx_xxx_0110111;
+         $is_auipc = $dec_bits ==? 11'bx_xxx_0010111;
+         $is_jal = $dec_bits ==? 11'bx_xxx_1101111;
          $is_jalr = $dec_bits ==? 11'bx_000_1100111;
-         $isbeq = $dec_bits ==? 11'bx_000_1100011;
-         $isbne = $dec_bits ==? 11'bx_001_1100011;
-         $isblt = $dec_bits ==? 11'bx_100_1100011;
-         $isbge = $dec_bits ==? 11'bx_101_1100011;
-         $isbltu = $dec_bits ==? 11'bx_110_1100011;
-         $isbgeu = $dec_bits ==? 11'bx_111_1100011;
+         $is_beq = $dec_bits ==? 11'bx_000_1100011;
+         $i_sbne = $dec_bits ==? 11'bx_001_1100011;
+         $is_blt = $dec_bits ==? 11'bx_100_1100011;
+         $is_bge = $dec_bits ==? 11'bx_101_1100011;
+         $is_bltu = $dec_bits ==? 11'bx_110_1100011;
+         $is_bgeu = $dec_bits ==? 11'bx_111_1100011;
          $is_load = $dec_bits == 11'bx_xxx_0000011;
-         $issb = $dec_bits ==? 11'bx_000_0100011;
-         $issh = $dec_bits ==? 11'bx_001_0100011;
-         $issw = $dec_bits ==? 11'bx_010_0100011;
-         $isaddi = $dec_bits ==? 11'bx_000_0010011;
-         $isslti = $dec_bits ==? 11'bx_010_0010011;
-         $issltiu = $dec_bits ==? 11'bx_011_0010011;
+         $is_sb = $dec_bits ==? 11'bx_000_0100011;
+         $is_sh = $dec_bits ==? 11'bx_001_0100011;
+         $is_sw = $dec_bits ==? 11'bx_010_0100011;
+         $is_addi = $dec_bits ==? 11'bx_000_0010011;
+         $is_slti = $dec_bits ==? 11'bx_010_0010011;
+         $is_sltiu = $dec_bits ==? 11'bx_011_0010011;
          $is_xori = $dec_bits ==? 11'bx_100_0010011;
          $is_ori = $dec_bits ==? 11'bx_110_0010011;
          $is_andi = $dec_bits ==? 11'bx_111_0010011;
          $is_slli = $dec_bits ==? 11'b0_001_0010011;
          $is_srli = $dec_bits ==? 11'b0_101_0010011;
          $is_srai = $dec_bits ==? 11'b1_101_0010011;
-         $isadd = $dec_bits ==? 11'b0_000_0110011;
+         $is_add = $dec_bits ==? 11'b0_000_0110011;
          $is_sub = $dec_bits ==? 11'b1_000_0110011;
          $is_sll = $dec_bits ==? 11'b0_001_0110011;
          $is_slt = $dec_bits ==? 11'b0_010_0110011;
@@ -148,9 +148,31 @@
 
       @3   
          //ALU
-         $result[31:0] = $is_addi ? $src1_value + $imm[31:0] :
-                         $is_add ? $src1_value + $src2_value :
-                                   32'bx;
+         $result[31:0] = $is_addi  ? $src1_value + $imm:
+                         $is_add   ? $src1_value + $src2_value: 
+                         $is_sub   ? $src1_value - $src2_value :
+                         $is_sll   ? $src1_value << $src2_value[4:0] :
+                         $is_srl   ? $src1_value >> $src2_value[4:0] :
+                         $is_sltu  ? $src1_value < $src2_value :
+                         $is_sltiu ? $src1_value < $imm :
+                         $is_lui   ? {$imm[31:12], 12'b0} :
+                         $is_auipc ? $pc + $imm :
+                         $is_jal   ? $pc + 4 :
+                         $is_jalr  ? $pc + 4 :
+                         $is_andi  ? $src1_value & $imm :
+                         $is_ori   ? $src1_value | $imm :
+                         $is_xori  ? $src1_value ^ $imm :
+                         $is_slli  ? $src1_value << $imm[5:0] :
+                         $is_srli  ? $src1_value >> $imm[5:0] :
+                         $is_and   ? $src1_value & $src2_value :
+                         $is_or    ? $src1_value | $src2_value :
+                         $is_xor   ? $src1_value ^ $src2_value :
+                         $is_srai  ? { {32{$src1_value[31]}}, $src1_value} >> $imm[4:0] :
+                         $is_slt   ? (( $src1_value[31] == $src2_value[31] ) ? ($src1_value < $src2_value) : {31'b0, $src1_value[31]} ) : 
+                         $is_slti  ? ($src1_value[31] == $imm[31]) ?  ($src1_value < $imm) : {31'b0, $src1_value[31]} :
+                         $is_sra   ? { {32{$src1_value[31]}}, $src1_value} >> $src2_value[4:0]: 
+						 // default
+						             32'bx;
          
          // Register File Write
          $rf_wr_en = $valid && $rd_valid && $rd != 5'b0;
