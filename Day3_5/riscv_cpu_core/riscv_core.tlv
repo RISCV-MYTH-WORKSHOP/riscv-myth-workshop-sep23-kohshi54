@@ -45,6 +45,8 @@
          $pc[31:0] = >>1$reset ? 0 :
                      >>3$valid_load ? >>3$pc:
                      >>3$valid_taken_branch ? >>3$br_target_pc : 
+                     (>>3$valid_jump && >>3$is_jal) ? >>3$br_target_pc :
+                     (>>3$valid_jump && >>3$is_jalr) ? >>3$jalr_target_pc :					 
                      // default
                                         >>1$pc[31:0] + 32'd4;
 
@@ -138,6 +140,7 @@
          $is_sra = $dec_bits ==? 11'b1_101_0110011;
          $is_or = $dec_bits ==? 11'b0_110_0110011;
          $is_and = $dec_bits ==? 11'b0_111_0110011;
+         $is_jump = $is_jal || $is_jalr;		 
 
       @2   
          // Register File Read
@@ -193,9 +196,12 @@
                          $is_bgeu ? ($src1_value >= $src2_value):
                                     1'b0;
          $valid_load = $valid && $is_load;
-         $valid = (!>>1$valid_taken_branch || !>>2$valid_taken_branch) && (!>>1$valid_load || !>>2$valid_load);
+         $valid = (!>>1$valid_taken_branch || !>>2$valid_taken_branch) && (!>>1$valid_load || !>>2$valid_load)
+                   && (!>>1$valid_jump || !>>2$valid_jump);
          $valid_taken_branch = $valid && $taken_branch;
          $br_target_pc[31:0] = $pc +$imm;
+         $jalr_target_pc[31:0] = $src1_value + $imm;
+         $valid_jump = $valid && $is_jump;		 
 
          $dmem_wr_data[31:0] = $src2_value[31:0];
          $dmem_wr_en = $is_s_instr && $valid;
