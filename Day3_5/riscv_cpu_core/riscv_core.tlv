@@ -44,6 +44,12 @@
                      >>1$taken_branch ? >>1$br_target_pc : 
                      // default
                                         >>1$pc[31:0] + 32'd4;
+
+         $start = >>1$reset;
+         $valid = $reset ? 0 : 
+                  $start ? 1 :
+                  // default
+                           >>3$valid;
       @1
          // Fetch
          $imem_rd_addr[M4_IMEM_INDEX_CNT-1:0] = $pc[M4_IMEM_INDEX_CNT+1:2];
