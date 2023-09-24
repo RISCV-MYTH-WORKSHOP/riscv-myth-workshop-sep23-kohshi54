@@ -113,6 +113,11 @@
          $src_1_value[31:0] = $rf_rd_data1;
          $src_2_value[31:0] = $rf_rd_data2;
 
+         // Register File Write
+         $rf_wr_en = ($rd == 5'b0) ? 0 : $rd;
+         $rf_wr_index[4:0] = $rd;
+         $rf_wr_data[31:0] = $result;
+
       // Note: Because of the magic we are using for visualisation, if visualisation is enabled below,
       //       be sure to avoid having unassigned signals (which you might be using for random inputs)
       //       other than those specifically expected in the labs. You'll get strange errors for these.
