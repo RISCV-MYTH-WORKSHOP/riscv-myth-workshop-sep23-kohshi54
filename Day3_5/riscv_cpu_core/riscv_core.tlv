@@ -157,6 +157,8 @@
                          $is_sltu  ? $src1_value < $src2_value :
                          $is_sltiu ? $src1_value < $imm :
                          $is_lui   ? {$imm[31:12], 12'b0} :
+                         $is_load ? $src1_value + $imm :
+                         $is_s_instr ? $src1_value + $imm:						 
                          $is_auipc ? $pc + $imm :
                          $is_jal   ? $pc + 4 :
                          $is_jalr  ? $pc + 4 :
@@ -177,8 +179,8 @@
          
          // Register File Write
          $rf_wr_en = $valid && $rd_valid && $rd != 5'b0;
-         $rf_wr_index[4:0] = $rd[4:0];
-         $rf_wr_data[31:0] = $result[31:0];
+         $rf_wr_index[4:0] = >>2$valid_load ? >>2$rd[4:0] : $rd[4:0];
+         $rf_wr_data[31:0] = >>2$valid_load? >>2$ld_data : $result[31:0];
          
          // Branches
          $taken_branch = $is_beq ? ($src1_value == $src2_value):
