@@ -4,5 +4,7 @@ For students of "Microprocessor for You in Thirty Hours" Workshop, offered by fo
 
 Refer to README at [stevehoover/RISC-V_MYTH_Workshop](https://github.com/stevehoover/RISC-V_MYTH_Workshop) for lab instructions.
 
-Add your codes in the [calculator_solutions.tlv](calculator_solutions.tlv) and [risc-v_solutions.tlv](risc-v_solutions.tlv) files and **keep committing** to your repository after every lab.
+Add your codes in the [calculator_solutions.tlv](calculator_solutions.tlv) and [riscv_core.tlv](riscv_cpu_core/riscv_core.tlv) files and **keep committing** to your repository after every lab.
 
+# Single Cycle CPU Core
+<img width="1470" alt="image" src="https://github.com/RISCV-MYTH-WORKSHOP/riscv-myth-workshop-sep23-kohshi54/assets/80312261/f881e894-f548-4b26-9a76-ba24ce3b232d">
