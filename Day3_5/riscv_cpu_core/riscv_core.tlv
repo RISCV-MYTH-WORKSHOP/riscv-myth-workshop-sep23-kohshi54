@@ -41,9 +41,9 @@
       @0
          $reset = *reset;
          $pc[31:0] = >>1$reset ? 0 :
-                     >>1$taken_branch ? >>1$br_target_pc : 
+                     >>3$valid_taken_branch ? >>3$br_target_pc : 
                      // default
-                                        >>1$pc[31:0] + 32'd4;
+                                        >>3$pc[31:0] + 32'd4;
 
          $start = >>1$reset;
          $valid = $reset ? 0 : 
@@ -126,7 +126,7 @@
                                    32'bx;
          
          // Register File Write
-         $rf_wr_en = $rd_valid && $rd != 5'b0;
+         $rf_wr_en = $valid && $rd_valid && $rd != 5'b0;
          $rf_wr_index[4:0] = $rd[4:0];
          $rf_wr_data[31:0] = $result[31:0];
          
@@ -138,7 +138,8 @@
                          $is_bltu ? ($src1_value < $src2_value):
                          $is_bgeu ? ($src1_value >= $src2_value):
                                     1'b0;
-         
+
+         $valid_taken_branch = $valid && $taken_branch;
          $br_target_pc[31:0] = $pc +$imm;
 
          // Testbench
