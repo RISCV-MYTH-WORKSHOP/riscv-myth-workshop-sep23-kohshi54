@@ -66,4 +66,7 @@ Function can be implemented with ABI.
 
 <img width="1065" alt="image" src="https://github.com/RISCV-MYTH-WORKSHOP/riscv-myth-workshop-sep23-kohshi54/assets/80312261/17bc8e7d-9671-4f0d-8751-d66961e9b970">
 
+And load is being called in the assembly.
+<img width="1060" alt="スクリーンショット 2023-09-24 16 06 11" src="https://github.com/RISCV-MYTH-WORKSHOP/riscv-myth-workshop-sep23-kohshi54/assets/80312261/b0e63953-98b0-4098-bf75-ee63c32d1665">
+
 
